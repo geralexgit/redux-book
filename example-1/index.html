@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Redux demo</title>
+</head>
+
+<body>
+    <div>
+        <span id='counter'></span>
+    </div>
+    <button id='inc'>Increment</button>
+    <button id='dec'>Decrement</button>
+    <script>
+
+    let state = {
+        counter: 3
+    };
+
+    //let state = null;
+    const listeners = [];
+
+
+    function dispatch(action) {
+        const newState = reducer(state, action);
+        if (newState !== state) {
+            state = newState;
+            //listeners.forEach(listener => listeners());
+        }
+        updateView();
+        subscribe(action);
+    }
+
+    function updateView() {
+        document.querySelector('#counter').innerText = state.counter;
+    }
+
+    function subscribe(callback) {
+        listeners.push(callback);
+    }
+
+    // Our mutation (reducer) function creates a new state based on the action passed
+    function reducer(state, action) {
+        switch (action) {
+            case 'INC':
+                return { ...state, counter: state.counter + 1 };
+            case 'DEC':
+                return { ...state, counter: state.counter - 1 };
+            default:
+                return state;
+        }        
+    }
+
+    //subscribe(updateView);
+
+    document.querySelector('#inc').onclick = () => dispatch('INC');
+    document.querySelector('#dec').onclick = () => dispatch('DEC');
+
+    updateView();
+    </script>
+</body>
+
+</html>
