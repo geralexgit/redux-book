@@ -20,14 +20,6 @@
         counter: 3
     };
 
-    const store = Redux.createStore(reducer, initialState);
-
-    function updateView() {
-        document.querySelector('#counter').innerText = store.getState().counter;
-    };
-
-    store.subscribe(updateView);
-
     function reducer(state, action) {
         switch (action.type) {
             case 'INC':
@@ -38,7 +30,17 @@
                 return state;
         }
     };
+    
+    const store = Redux.createStore(reducer, initialState);
+
+    function updateView() {
+        document.querySelector('#counter').innerText = store.getState().counter;
+    };
+
+    store.subscribe(updateView);
+
     updateView();
+
     document.querySelector('#inc').onclick = () => store.dispatch({type: 'INC'});
     document.querySelector('#dec').onclick = () => store.dispatch({type: 'DEC'});
     </script>
